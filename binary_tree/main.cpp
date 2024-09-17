@@ -36,17 +36,29 @@ class TTree {
 };
 
 void TTree ::Insert(int key) {
-  TNode **cur = &Root;
+  TNode *cur = Root;
+  TNode *newNode = new TNode(key);
 
-  while (*cur) {
-    TNode &node = **cur;
-    if (key <= node.Key) {
-      cur = &node.Left;
+  if (!cur) {
+    this->Root = newNode;
+    return;
+  }
+
+  while (cur) {
+    if (key <= cur->Key) {
+      if (cur->Left == nullptr) {
+        cur->Left = newNode;
+        break;
+      }
+      cur = cur->Left;
     } else {
-      cur = &node.Right;
+      if (cur->Right == nullptr) {
+        cur->Right = newNode;
+        break;
+      }
+      cur = cur->Right;
     }
   }
-  *cur = new TNode(key);
 }
 
 TNode *TTree::Find(int key) {
@@ -76,8 +88,6 @@ TNode *TTree::Max(TNode *node) {
 }
 
 void TTree::Print(TNode *node) {
-  if (!node) node = Root;
-
   if (!node) return;
   Print(node->Left);
   std::cout << node->Key << " ";
@@ -126,7 +136,6 @@ int main() {
   tree->Insert(6);
   tree->Insert(1);
 
-  tree->Erace(2);
-
+  tree->Erace(5);
   tree->Print(tree->Root);
 }
