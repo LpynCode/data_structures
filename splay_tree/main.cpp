@@ -10,9 +10,9 @@ class TNode {
   TNode *Left = nullptr;
 };
 
-class TTree {
+class SplayTree {
  public:
-  TTree() {}
+  SplayTree() {}
 
   void Insert(int key);
   void Erace(int key);
@@ -22,10 +22,12 @@ class TTree {
   TNode *Max(TNode *node);
   void Print(TNode *node);
 
-  ~TTree() { DestroyNode(Root); }
+  ~SplayTree() { DestroyNode(Root); }
   TNode *Root = nullptr;
 
  private:
+  void Zig(TNode *node);
+
   static void DestroyNode(TNode *node) {
     if (node) {
       DestroyNode(node->Left);
@@ -35,33 +37,21 @@ class TTree {
   }
 };
 
-void TTree ::Insert(int key) {
-  TNode *cur = Root;
-  TNode *newNode = new TNode(key);
+void SplayTree ::Insert(int key) {
+  TNode **cur = &Root;
 
-  if (!cur) {
-    this->Root = newNode;
-    return;
-  }
-
-  while (cur) {
-    if (key <= cur->Key) {
-      if (cur->Left == nullptr) {
-        cur->Left = newNode;
-        break;
-      }
-      cur = cur->Left;
+  while (*cur) {
+    TNode &node = **cur;
+    if (key <= node.Key) {
+      cur = &node.Left;
     } else {
-      if (cur->Right == nullptr) {
-        cur->Right = newNode;
-        break;
-      }
-      cur = cur->Right;
+      cur = &node.Right;
     }
   }
+  *cur = new TNode(key);
 }
 
-TNode *TTree::Find(int key) {
+TNode *SplayTree::Find(int key) {
   TNode *cur = Root;
 
   while (cur) {
@@ -76,25 +66,27 @@ TNode *TTree::Find(int key) {
   return nullptr;
 }
 
-TNode *TTree::Min(TNode *node) {
+TNode *SplayTree::Min(TNode *node) {
   if (!node->Left) return node;
 
   return Min(node->Left);
 }
 
-TNode *TTree::Max(TNode *node) {
+TNode *SplayTree::Max(TNode *node) {
   if (!node->Right) return node;
   return Max(node->Right);
 }
 
-void TTree::Print(TNode *node) {
+void SplayTree::Print(TNode *node) {
   if (!node) return;
   Print(node->Left);
   std::cout << node->Key << " ";
   Print(node->Right);
 }
 
-void TTree::Erace(int key) {
+void SplayTree::Zig(TNode *node) {}
+
+void SplayTree::Erace(int key) {
   TNode *cur = Root;
   TNode *parent = nullptr;
 
@@ -129,10 +121,14 @@ void TTree::Erace(int key) {
 }
 
 int main() {
-  TTree tree = TTree();
-  tree.Insert(2);
-  tree.Insert(3);
+  SplayTree *tree = new SplayTree();
+  tree->Insert(2);
+  tree->Insert(3);
+  tree->Insert(5);
+  tree->Insert(6);
+  tree->Insert(1);
 
-  tree.Erace(3);
-  tree.Print(tree.Root);
+  tree->Erace(2);
+
+  tree->Print(tree->Root);
 }

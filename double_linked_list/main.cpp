@@ -100,12 +100,12 @@ void DoubleLinkedList::Print(Node *node) {
 }
 
 int main() {
-  DoubleLinkedList *list = new DoubleLinkedList();
-  list->Append(5);
-  list->Append(6);
-  list->Prepend(1);
-  list->Shift();
-  std::cout << list->GetAt(0)->Key << std::endl;
+  DoubleLinkedList list = DoubleLinkedList();
+  list.Append(5);
+  list.Append(6);
+  list.Prepend(1);
+  list.Shift();
+  std::cout << list.GetAt(0)->Key << std::endl;
 
-  list->Print(list->Head);
+  list.Print(list.Head);
 }

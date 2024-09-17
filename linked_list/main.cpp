@@ -97,11 +97,11 @@ void LinkedList::Print(Node *node) {
 }
 
 int main() {
-  LinkedList *list = new LinkedList();
-  list->Insert(1);
-  list->Insert(5);
-  list->Insert(2);
+  LinkedList list = LinkedList();
+  list.Insert(1);
+  list.Insert(5);
+  list.Insert(2);
 
-  list->Erace(5);
-  list->Print(list->Root);
+  list.Erace(5);
+  list.Print(list.Root);
 }
