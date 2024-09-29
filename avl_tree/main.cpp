@@ -17,13 +17,12 @@ class AVLTree {
   void Print(Node *node);
   void Insert(int key);
   void Erace(int key);
-  void RightRotate(Node *p);
-  void FixHeight(Node *node);
-
   Node *Min(Node *node);
 
  private:
   Node *RecourciveInsert(Node *node, Node *newNode);
+  void FixHeight(Node *node);
+  void RightRotate(Node *p);
   void LeftRotate(Node *p);
   void Balance(Node *node);
   size_t GetHeight(Node *node);
